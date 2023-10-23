@@ -10,14 +10,21 @@
 # ✔Любое действие выводит сумму денег
 
 class ATM:
-    def __init__(self, balance: float = 0, value_divider = 50,
-                 wealth_tax_limit = 5_000_000,
-                 wealth_tax_percent = 10,
-                 interest_operations = 3,
-                 interest_percent = 3):
+    def __init__(self, balance: float = 0,
+                 value_divider: int = 50,
+                 withdraw_tax_percent: float=1.5,
+                 withdraw_min_tax: int = 30,
+                 withdraw_max_tax: int =600, 
+                 wealth_tax_limit: int = 5_000_000,
+                 wealth_tax_percent: float = 10,
+                 interest_operations: int = 3,
+                 interest_percent: float = 3):
         self.__balance = balance
         self.__operations_count = 0
         self.__value_divider = value_divider
+        self.__withdraw_tax_percent = withdraw_tax_percent
+        self.__withdraw_min_tax = withdraw_min_tax
+        self.__withdraw_max_tax = withdraw_max_tax
         self.__wealth_tax_limit = wealth_tax_limit
         self.__wealth_tax_percent = wealth_tax_percent
         self.__interest_operations = interest_operations
@@ -36,7 +43,9 @@ class ATM:
 
     def withdraw_balance(self, value: str) -> int:
         self.__check_balance()
-        withdraw_sum = value + self.__get_taxes(1.5, value, 30, 600)
+        withdraw_sum = value + self.__get_taxes(self.__withdraw_tax_percent, value,
+                                                self.__withdraw_min_tax,
+                                                self.__withdraw_max_tax)
         withdraw = 0
 
         if not self.__check_value(value) or self.__balance < withdraw_sum:
@@ -56,7 +65,6 @@ class ATM:
         if self.__balance > self.__wealth_tax_limit:
             self.__balance -= self.__get_taxes(self.__wealth_tax_percent)
 
-    # TODO: Replace with more correct calcultions && taxes calculations here
     def __get_taxes(self, percent: int, value: int = None,
                   min_tax: int = 0, max_tax: int = 0) -> float:
 
@@ -64,7 +72,7 @@ class ATM:
         tax_value *= (percent / 100)
 
         if not max_tax:
-            return tax_value if tax_value > min_tax else min_tax
+            return tax_value if tax_value < min_tax else min_tax
         else:
             if tax_value < min_tax:
                 return min_tax

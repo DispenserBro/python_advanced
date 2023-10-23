@@ -41,7 +41,26 @@ def test_withdraw_balance_fails_if_value_not_divisible_by_value_divider_or_balan
     assert captured.out == "Operation failed!\n100\n"
 
 
+# withdraw tax don't have upper limit if withdraw_balance is None or equals 0
+def test_withdraw_balance_returns_unlimited_tax_if_max_tax_is_not_set():
+    atm1 = ATM(balance=1_000_000)
+    atm2 = ATM(balance=1_000_000, withdraw_max_tax=None)
+    atm3 = ATM(balance=1_000_000, withdraw_max_tax=0)
 
+    assert atm1.withdraw_balance(100_000) == atm2.withdraw_balance(100_000) == atm3.withdraw_balance(100_000)
+    assert atm1._ATM__balance != atm2._ATM__balance
+    assert atm2._ATM__balance == atm3._ATM__balance
+
+
+def test_iterest_bearing_triggers():
+    atm = ATM()
+    test_balance = 30_000
+
+    atm.add_balance(test_balance / 3)
+    atm.add_balance(test_balance / 3)
+    atm.add_balance(test_balance / 3)
+
+    assert atm._ATM__balance > test_balance
 
 
 
