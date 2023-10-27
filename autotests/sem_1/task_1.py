@@ -20,7 +20,7 @@ def separate_words(text: str) -> list[str]:
 def print_separated_words(text: str) -> None:
     # words_list = separate_words(text)
     words_list = sorted(separate_words(text))
-    max_len = len(max(words_list, key=len)) if words_list else 0
+    max_len = len(max(words_list, key=len, default=0)) if words_list else 0
     print('\n'.join(f'{indx:>3} {el:>{max_len}}' for indx, el in enumerate(words_list)))
 
 
