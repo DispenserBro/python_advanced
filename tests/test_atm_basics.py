@@ -4,7 +4,7 @@ from atm import ATM
 # add_balance method adds value to balance and calls interest_bearing method
 def test_add_balance_adds_value_and_calls_interest_bearing():
     atm = ATM()
-    atm.add_balance(100)
+    atm.deposit(100)
     assert atm._ATM__balance == 100
     assert atm._ATM__operations_count == 1
 
@@ -28,7 +28,7 @@ def test_get_balance_prints_current_balance(capsys):
 # add_balance method fails if value is not divisible by value_divider
 def test_add_balance_fails_if_value_not_divisible_by_value_divider(capsys):
         atm = ATM()
-        atm.add_balance(75)
+        atm.deposit(75)
         captured = capsys.readouterr()
         assert captured.out == "Operation failed!\n0\n"
 
@@ -56,9 +56,9 @@ def test_iterest_bearing_triggers():
     atm = ATM()
     test_balance = 30_000
 
-    atm.add_balance(test_balance / 3)
-    atm.add_balance(test_balance / 3)
-    atm.add_balance(test_balance / 3)
+    atm.deposit(test_balance / 3)
+    atm.deposit(test_balance / 3)
+    atm.deposit(test_balance / 3)
 
     assert atm._ATM__balance > test_balance
 

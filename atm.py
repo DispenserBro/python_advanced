@@ -30,7 +30,7 @@ class ATM:
         self.__interest_operations = interest_operations
         self.__interest_percent = interest_percent
 
-    def add_balance(self, value: str) -> None:
+    def deposit(self, value: str) -> None:
         self.__check_balance()
 
         if self.__check_value(value):
