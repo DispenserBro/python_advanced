@@ -11,10 +11,13 @@ def func():
     result = []
     for i in range(max_len):
         row = ''
-        if data_nums[i] < 0:
-            row = f'{data_names[i].lower()} | {abs(data_nums[i])}'
+        if data_nums[i % len(data_nums)] < 0:
+            row = f'{data_names[i % len(data_names)].lower()} | {abs(data_nums[i % len(data_nums)])}'
         else:
-            row = f'{data_names[i].upper()} | {round(data_nums[i],0)}'
+            row = f'{data_names[i % len(data_names)].upper()} | {round(data_nums[i % len(data_nums)])}'
         result.append(row)
-    with open('result.txt', 'w', encoding='UTF-8') as file:
-        file.write('\n'.join(result))
+    with open('result.txt', 'w', encoding='UTF-8') as f:
+        f.write('\n'.join(result))
+
+
+func()

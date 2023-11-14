@@ -1,0 +1,62 @@
+[
+  {
+    "Path": "sem_8\\names.json",
+    "Type": "File",
+    "Size": 120
+  },
+  {
+    "Path": "sem_8\\result.json",
+    "Type": "File",
+    "Size": 317
+  },
+  {
+    "Path": "sem_8\\result.txt",
+    "Type": "File",
+    "Size": 264
+  },
+  {
+    "Path": "sem_8\\task_1.py",
+    "Type": "File",
+    "Size": 1206
+  },
+  {
+    "Path": "sem_8\\task_2.py",
+    "Type": "File",
+    "Size": 2815
+  },
+  {
+    "Path": "sem_8\\task_2_kirill.py",
+    "Type": "File",
+    "Size": 1646
+  },
+  {
+    "Path": "sem_8\\task_3.py",
+    "Type": "File",
+    "Size": 1248
+  },
+  {
+    "Path": "sem_8\\__init__.py",
+    "Type": "File",
+    "Size": 0
+  },
+  {
+    "Path": "sem_8\\__pycache__",
+    "Type": "Directory",
+    "Size": 1743
+  },
+  {
+    "Path": "sem_8\\__pycache__\\task_1.cpython-312.pyc",
+    "Type": "File",
+    "Size": 1743
+  },
+  {
+    "Path": "sem_8\\__pycache__\\new",
+    "Type": "Directory",
+    "Size": 15
+  },
+  {
+    "Path": "sem_8\\__pycache__\\new\\file.txt",
+    "Type": "File",
+    "Size": 15
+  }
+]
