@@ -19,56 +19,56 @@ class ATM:
                  wealth_tax_percent: float = 10,
                  interest_operations: int = 3,
                  interest_percent: float = 3):
-        self.__balance = balance
-        self.__operations_count = 0
-        self.__value_divider = value_divider
-        self.__withdraw_tax_percent = withdraw_tax_percent
-        self.__withdraw_min_tax = withdraw_min_tax
-        self.__withdraw_max_tax = withdraw_max_tax
-        self.__wealth_tax_limit = wealth_tax_limit
-        self.__wealth_tax_percent = wealth_tax_percent
-        self.__interest_operations = interest_operations
-        self.__interest_percent = interest_percent
+        self._balance = balance
+        self._operations_count = 0
+        self._value_divider = value_divider
+        self._withdraw_tax_percent = withdraw_tax_percent
+        self._withdraw_min_tax = withdraw_min_tax
+        self._withdraw_max_tax = withdraw_max_tax
+        self._wealth_tax_limit = wealth_tax_limit
+        self._wealth_tax_percent = wealth_tax_percent
+        self._interest_operations = interest_operations
+        self._interest_percent = interest_percent
 
-    def deposit(self, value: str) -> None:
-        self.__check_balance()
+    def deposit(self, value: int) -> None:
+        self._check_balance()
 
-        if self.__check_value(value):
-            self.__balance += value
-            self.__interest_bearing()
+        if self._check_value(value):
+            self._balance += value
+            self._interest_bearing()
         else:
             print("Operation failed!")
 
         self.get_balance()
 
-    def withdraw_balance(self, value: str) -> int:
-        self.__check_balance()
-        withdraw_sum = value + self.__get_taxes(self.__withdraw_tax_percent, value,
-                                                self.__withdraw_min_tax,
-                                                self.__withdraw_max_tax)
+    def withdraw_balance(self, value: int) -> int:
+        self._check_balance()
+        withdraw_sum = value + self._get_taxes(self._withdraw_tax_percent, value,
+                                                self._withdraw_min_tax,
+                                                self._withdraw_max_tax)
         withdraw = 0
 
-        if not self.__check_value(value) or self.__balance < withdraw_sum:
+        if not self._check_value(value) or self._balance < withdraw_sum:
             print("Operation failed!")
         else:
-            self.__balance -= withdraw_sum
+            self._balance -= withdraw_sum
             withdraw = value
-            self.__interest_bearing()
+            self._interest_bearing()
 
         self.get_balance()
         return withdraw
 
     def get_balance(self) -> None:
-        print(self.__balance)
+        print(self._balance)
 
-    def __check_balance(self) -> None:
-        if self.__balance > self.__wealth_tax_limit:
-            self.__balance -= self.__get_taxes(self.__wealth_tax_percent)
+    def _check_balance(self) -> None:
+        if self._balance > self._wealth_tax_limit:
+            self._balance -= self._get_taxes(self._wealth_tax_percent)
 
-    def __get_taxes(self, percent: int, value: int = None,
+    def _get_taxes(self, percent: float, value: int = None,
                   min_tax: int = 0, max_tax: int = 0) -> float:
 
-        tax_value = self.__balance if value is None else value
+        tax_value = self._balance if value is None else value
         tax_value *= (percent / 100)
 
         if not max_tax:
@@ -81,10 +81,10 @@ class ATM:
             else:
                 return tax_value
 
-    def __check_value(self, value: int) -> bool:
-        return value % self.__value_divider == 0
+    def _check_value(self, value: int) -> bool:
+        return value % self._value_divider == 0
 
-    def __interest_bearing(self) -> None:
-        self.__operations_count += 1
-        if self.__operations_count % self.__interest_operations == 0:
-            self.__balance += self.__balance * (self.__interest_percent / 100)
+    def _interest_bearing(self) -> None:
+        self._operations_count += 1
+        if self._operations_count % self._interest_operations == 0:
+            self._balance += self._balance * (self._interest_percent / 100)
