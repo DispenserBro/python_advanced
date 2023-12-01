@@ -1,74 +1,94 @@
-import numpy as np
+class InvalidNameError(Exception):
+    pass
 
-class Matrix:
-    def __init__(self, rows: int, cols: int):
-        self.rows = rows
-        self.cols = cols
-        self.data = [[0 for _ in range(cols)] for _ in range(rows)]
 
-    def __repr__(self) -> str:
-        return f"Matrix({self.rows}, {self.cols})"
+class InvalidAgeError(Exception):
+    pass
 
-    def __str__(self) -> str:
-        return "\n".join([" ".join(map(str, row)) for row in self.data])
 
-    def __eq__(self, other: 'Matrix') -> bool:
-        if self.rows != other.rows or self.cols != other.cols:
-            return False
+class InvalidIdError(Exception):
+    pass
 
-        for i in range(self.rows):
-            for j in range(self.cols):
-                if self.data[i][j] != other.data[i][j]:
-                    return False
 
-        return True
+class StringValue:
+    @classmethod
+    def check_value(cls, value):
+        if not isinstance(value, str):
+            raise InvalidNameError('Value must be a string')
+        if value == '':
+            raise InvalidNameError(f'Invalid name: {value}. Name should be a non-empty string.')
     
-    def __add__(self, other: 'Matrix') -> 'Matrix':
-        if self.rows != other.rows or self.cols != other.cols:
-            return
-        
-        new_matrix = Matrix(self.rows, self.cols)
-        
-        for i in range(self.rows):
-            for j in range(self.cols):
-                new_matrix.data[i][j] = self.data[i][j] + other.data[i][j]
-        return new_matrix
+    def __set_name__(self, owner, name):
+        self.name = '_' + name
+    
+    def __get__(self, instance, owner):
+        return getattr(instance, self.name)
+    
+    def __set__(self, instance, value):
+        self.check_value(value)
+        setattr(instance, self.name, value)
 
-    def __mul__(self, other: 'Matrix') -> 'Matrix':
-        if self.cols != other.rows:
-            return
 
-        new_matrix = Matrix(other.rows, self.cols)
-        result = np.matrix(self.data) * np.matrix(other.data)
-        new_matrix.data = result.tolist()
-        return new_matrix
+class AgeValue:
+    def check_value(self, value):
+        if not isinstance(value, (int, float)):
+            raise InvalidAgeError('Value must be a number')
+        if not value > 0:
+            raise InvalidAgeError(f'Invalid {self.name[1:]}: {value}. Age should be a positive integer.')
+    
+    def __set_name__(self, owner, name):
+        self.name = '_' + name
+    
+    def __get__(self, instance, owner):
+        return getattr(instance, self.name)
+    
+    def __set__(self, instance, value):
+        self.check_value(value)
+        setattr(instance, self.name, value)
 
-# Создаем матрицы
-matrix1 = Matrix(2, 3)
 
-matrix1.data = [[1, 2, 3], [4, 5, 6]]
+class IdValue:
+    def check_value(self, value):
+        if not isinstance(value, (int, float)):
+            raise InvalidIdError('Value must be a number')
+        if not 999_999 > value > 100_000:
+            raise InvalidIdError(f'Invalid id: {value}. Id should be a 6-digit positive integer between 100000 and 999999.')
+    
+    def __set_name__(self, owner, name):
+        self.name = '_' + name
+    
+    def __get__(self, instance, owner):
+        return getattr(instance, self.name)
+    
+    def __set__(self, instance, value):
+        self.check_value(value)
+        setattr(instance, self.name, value)
 
-matrix2 = Matrix(2, 3)
-matrix2.data = [[7, 8, 9], [10, 11, 12]]
 
-# Выводим матрицы
-print(matrix1)
+class Person:
+    last_name = StringValue()
+    first_name = StringValue()
+    surname = StringValue()
+    age = AgeValue()
+    
+    def __init__(self, last_name, first_name, surname, age):
+        self.last_name = last_name
+        self.first_name = first_name
+        self.surname = surname
+        self.age = age
+    
+    def birthday(self):
+        self.age += 1
 
-print(matrix2)
+    def get_age(self):
+        return self.age
 
-# Сравниваем матрицы
-print(matrix1 == matrix2)
 
-# Выполняем операцию сложения матриц
-matrix_sum = matrix1 + matrix2
-print(matrix_sum)
-
-# Выполняем операцию умножения матриц
-matrix3 = Matrix(3, 2)
-matrix3.data = [[1, 2], [3, 4], [5, 6]]
-
-matrix4 = Matrix(2, 2)
-matrix4.data = [[7, 8], [9, 10]]
-
-result = matrix3 * matrix4
-print(result)
+class Employee(Person):
+    id = IdValue()
+    def __init__(self, last_name, first_name, surname, age, id):
+        super().__init__(last_name, first_name, surname, age)
+        self.id = id
+    
+    def get_level(self):
+        return sum(map(int, str(self.id))) % 7
