@@ -5,7 +5,7 @@ from atm import ATM
 def test_add_balance_adds_value_and_calls_interest_bearing():
     atm = ATM()
     atm.deposit(100)
-    assert atm._ATM__balance == 100
+    assert atm.get_balance() == 100
     assert atm._ATM__operations_count == 1
 
 
@@ -13,7 +13,7 @@ def test_add_balance_adds_value_and_calls_interest_bearing():
 def test_withdraw_balance_subtracts_value_and_taxes_and_calls_interest_bearing():
     atm = ATM(balance=100)
     assert atm.withdraw_balance(50) == 50
-    assert atm._ATM__balance == 20
+    assert atm.get_balance() == 20
     assert atm._ATM__operations_count == 1
 
 

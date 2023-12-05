@@ -60,6 +60,7 @@ class ATM:
 
     def get_balance(self) -> None:
         print(self._balance)
+        return self._balance
 
     def _check_balance(self) -> None:
         if self._balance > self._wealth_tax_limit:
