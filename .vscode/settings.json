@@ -5,4 +5,5 @@
     "python.testing.cwd": "${workspaceFolder}\\tests",
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
     "python.analysis.typeCheckingMode": "basic",
+    "vsicons.presets.nestjs": true,
 }
